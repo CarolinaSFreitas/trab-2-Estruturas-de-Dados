@@ -100,7 +100,7 @@ def marca_exclusiva():
     else:
         titulo("A Vinícola Soares não possui marcas exclusivas.\n", cor=Fore.BLUE)
 
-#4 - opção 5 | pesquisa. pesquisa feita na vinícola escolhida, busca por marca de vinho ou tipo de vinho
+#4 - opção 5 | pesquisa de dados. pesquisa feita na vinícola escolhida, busca por marca de vinho ou tipo de vinho
 def pesquisar():
     while True:
         titulo("Pesquisa por Marca de Vinho e Tipo", cor=Fore.LIGHTYELLOW_EX)
