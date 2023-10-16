@@ -11,6 +11,15 @@ as seguintes ações:
 ## 🛠️ Como meu trabalho foi construído:
 
 + Usando a API da Vinícola Freitas e a API da Vinícola Soares
+  * Node.js
+  * npm
+  * Express
+  * Sequelize
+  * MySQL2
+  * Cors
+  * nodemon
+  * Insomnia
+  
 + Usando Python
   * Requests
   * Colorama
