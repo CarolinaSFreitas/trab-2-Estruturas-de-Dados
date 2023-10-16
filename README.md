@@ -7,8 +7,9 @@ as seguintes ações:
   - Realizar alguma das operações dos conjuntos sobre a lista de dicionários (intersecção, união, diferença)
   - Pesquisar dados nas listas
 
-Usando Pesquisa das principais marcas de vinho do rio grande do sul(primeira parte da url) 
 
-ou
+## Como meu trabalho foi construído:
 
-Usando a API da Vinícola
++ Usando a API da Vinícola Freitas e a API da Vinícola Soares
++ Usando Python
++ Usando Requests
