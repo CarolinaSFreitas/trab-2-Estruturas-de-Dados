@@ -1,4 +1,6 @@
 import requests
+from colorama import init, Fore
+init()
 
 url_vinicola_freitas = "http://localhost:3000"
 url_vinicola_soares = "http://localhost:3001"
@@ -6,13 +8,17 @@ url_vinicola_soares = "http://localhost:3001"
 response_freitas = requests.get(url_vinicola_freitas + "/vinhos")
 response_soares = requests.get(url_vinicola_soares + "/vinhos")
 
-def titulo(msg, simbolo="-"):
+#enfeites
+def titulo(msg, simbolo="-", cor=Fore.LIGHTMAGENTA_EX):
     print()
-    print(msg)
+    print(cor + msg + Fore.RESET)
     print(simbolo * 70)
 
+def sinais(msg2, cor=Fore.YELLOW):
+    print(cor + msg2 + Fore.RESET)
 
-#1- função de listar os vinhos por preço (- Listagem dos dados classificados (em ordem) de algum atributo)
+
+#1- opção 1 | função de listar os vinhos por preço (- Listagem dos dados classificados (em ordem) de algum atributo)
 def vinhos_por_preco():
     if response_freitas.status_code == 200:
 
@@ -21,7 +27,7 @@ def vinhos_por_preco():
         #ordena a lista (vinhos) pelo preço de menor a maior
         vinhos_ordenados = sorted(vinhos, key=lambda vinho: float(vinho['preco']))
         
-        titulo("Listagem de Vinhos por Preço:")
+        titulo("Listagem de Vinhos por Preço:", cor=Fore.LIGHTGREEN_EX)
         print("{:<15} {:<15} {:<15}".format("Tipo", "Preço (R$)", "Teor Alcoólico"))
         
         for vinho in vinhos_ordenados:
@@ -32,7 +38,7 @@ def vinhos_por_preco():
         print("Erro ao listar os vinhos do mais barato ao mais caro.")
 
 
-#2- função pra agrupar os dados por atributo e contar o total, nesse caso por tipo
+#2- opção 2 | função pra AGRUPAR OS DADOS por atributo e CONTAR O TOTAL, nesse caso por tipo
 def vinhos_tipo():
     if response_freitas.status_code == 200:
         vinhos = response_freitas.json()
@@ -44,7 +50,7 @@ def vinhos_tipo():
             tipo = vinho['tipo']
             tipos_contador[tipo] = tipos_contador.get(tipo, 0) + 1
 
-        titulo("Quantidade de Vinhos por Tipo:")
+        titulo("Quantidade de Vinhos por Tipo:", cor=Fore.LIGHTBLUE_EX)
         print("{:<15} {:<15}".format("Tipo", "Quantidade"))
 
         for tipo, quantidade in tipos_contador.items():
@@ -53,7 +59,7 @@ def vinhos_tipo():
         print("Erro ao listar a quantidade dos vinhos por tipo.")
 
 
-#3- função de conjuntos que vai fazer uma intersecção, mostrando o que as duas vinicolas tem de marcas em comum e quais marcas não são em comum, e sim unicas de cada
+#3- opção 3 | função de conjuntos que vai fazer uma INTERSECÇÃO, mostrando o que as duas vinicolas tem de marcas em comum e quais marcas não são em comum, e sim unicas de cada
 def compara_vinicolas():
     #puxa as marcas de cada vinícola
     dados_freitas = response_freitas.json()
@@ -65,11 +71,11 @@ def compara_vinicolas():
     # intersecção - ve as marcas em comum
     intersec = marcas_freitas.intersection(marcas_soares)
 
-    titulo("Marcas em Comum entre as Vinícolas:")
-    print(", ".join(intersec))
+    titulo("\nMarcas em Comum entre as Vinícolas:", cor=Fore.YELLOW)
+    print("\n".join(intersec))
 
 
-#3- função de conjuntos que vai fazer a diferença, mostrando as marcas de vinho exclusivas de cada vinícola
+#3- opção 4 | função de conjuntos que vai fazer a DIFERENÇA, mostrando as marcas de vinho exclusivas de cada vinícola
 def marca_exclusiva():
     dados_freitas = response_freitas.json()
     marcas_freitas = set(vinho['Marca']['nome'] for vinho in dados_freitas)
@@ -81,25 +87,61 @@ def marca_exclusiva():
     exclusivas_soares = marcas_soares.difference(marcas_freitas)
 
     if exclusivas_freitas:
-        print("Marcas Exclusivas da Vinícola Freitas:")
-        print("-" * 70)
+        titulo("Marcas Exclusivas da Vinícola Freitas:", cor=Fore.LIGHTRED_EX)
         for marca in exclusivas_freitas:
             print(marca)
     else:
-        print()
-        print("A Vinícola Freitas não possui marcas exclusivas.")
-        print()
+        titulo("A Vinícola Freitas não possui marcas exclusivas.\n", cor=Fore.RED)
+        
     if exclusivas_soares:
-        print("Marcas Exclusivas da Vinícola Soares:")
-        print("-" * 70)
+        titulo("Marcas Exclusivas da Vinícola Soares:", cor=Fore.LIGHTBLUE_EX)
         for marca in exclusivas_soares:
             print(marca)
     else:
-        print()
-        print("A Vinícola Soares não possui marcas exclusivas.")
-        print()
+        titulo("A Vinícola Soares não possui marcas exclusivas.\n", cor=Fore.BLUE)
 
+#4 - opção 5 | pesquisa. pesquisa feita na vinícola escolhida, busca por marca de vinho ou tipo de vinho
+def pesquisar():
+    while True:
+        titulo("Pesquisa por Marca de Vinho e Tipo", cor=Fore.LIGHTYELLOW_EX)
+        vinicola_escolhida = int(input("Escolha uma Vinícola Primeiro:\n1. Vinícola Freitas\n2. Vinícola Soares\nOpção: "))
 
+        if vinicola_escolhida == 1:
+            response = response_freitas
+            break 
+        elif vinicola_escolhida == 2:
+            response = response_soares
+            break 
+        else:
+            titulo("Opção inválida. Escolha 1 para Vinícola Freitas ou 2 para Vinícola Soares.", cor=Fore.RED)
+
+    palavra_chave = input("Digite a palavra-chave (Marca, Tipo ou ambas): ")
+
+    if response.status_code == 200:
+        vinhos = response.json()
+        resultados = []
+
+        for vinho in vinhos:
+            marca = vinho['Marca']['nome']
+            tipo = vinho['tipo']
+            if (palavra_chave.lower() in marca.lower() or palavra_chave.lower() in tipo.lower()):
+                resultados.append(vinho)
+
+        if resultados:
+            titulo(f"Resultados da pesquisa '{palavra_chave}' na Vinícola {('Freitas' if vinicola_escolhida == 1 else 'Soares')}:\n", cor=Fore.GREEN)
+            for vinho in resultados:
+                sinais("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*")
+                print(f"Marca de Vinho: {vinho['Marca']['nome']}")
+                print(f"Tipo de Vinho: {vinho['tipo']}")
+                print(f"Preço: R$ {vinho['preco']}")
+                print(f"Teor Alcoólico: {vinho['teor']}%")
+                sinais("-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*")
+        else:
+            titulo(f"Nenhum resultado encontrado com a palavra-chave '{palavra_chave}' na Vinícola {('Freitas' if vinicola_escolhida == 1 else 'Soares')}.", cor=Fore.RED)
+    else:
+        titulo(f"Erro... Não foi possível encontrar os vinhos na Vinícola {('Freitas' if vinicola_escolhida == 1 else 'Soares')}.", cor=Fore.RED)
+
+        
 #--------------------------------------------------------------------programa principal
 while True:
     print()
@@ -109,6 +151,8 @@ while True:
     print("2. Ver Total de Vinhos por Tipo (agrupamento de dados e total)")
     print("3. Ver Marcas em Comum entre as Vinícolas (intersecção de dados)")
     print("4. Ver Marcas Exclusivas de cada Vinícola (diferença de dados)")
+    print("5. Pesquisar por marca de vinho e tipo")
+    print("6. Sair")
     opcao = int(input("Opção: "))
 
     if opcao == 1:
@@ -119,6 +163,8 @@ while True:
         compara_vinicolas()
     elif opcao == 4:
         marca_exclusiva()
+    elif opcao == 5:
+        pesquisar()
     else:
+       print("Obrigada por usar nosso programa de Análise de Vinícola! :) ")
        break
-
