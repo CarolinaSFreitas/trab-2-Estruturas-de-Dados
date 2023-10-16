@@ -10,7 +10,7 @@ as seguintes ações:
 
 ## 🛠️ Como meu trabalho foi construído:
 
-+ Usando a API da Vinícola Freitas e a API da Vinícola Soares
++ Usando minhas APIs: Vinícola Freitas e Vinícola Soares
   * Node.js
   * npm
   * Express
