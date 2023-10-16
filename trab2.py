@@ -59,7 +59,7 @@ def vinhos_tipo():
         print("Erro ao listar a quantidade dos vinhos por tipo.")
 
 
-#3- opção 3 | função de conjuntos que vai fazer uma INTERSECÇÃO, mostrando o que as duas vinicolas tem de marcas em comum e quais marcas não são em comum, e sim unicas de cada
+#3- opção 3 | função de conjuntos que vai fazer uma INTERSECÇÃO, mostrando o que as duas vinicolas tem de marcas em comum 
 def compara_vinicolas():
     #puxa as marcas de cada vinícola
     dados_freitas = response_freitas.json()
