@@ -28,12 +28,12 @@ def vinhos_por_preco():
         vinhos_ordenados = sorted(vinhos, key=lambda vinho: float(vinho['preco']))
         
         titulo("Listagem de Vinhos por Preço:", cor=Fore.LIGHTGREEN_EX)
-        print("{:<15} {:<15} {:<15}".format("Tipo", "Preço (R$)", "Teor Alcoólico"))
+        print("{:<15} {:<14} {:<15}".format("Tipo", "Preço R$: ", "Teor Alcoólico"))
         
         for vinho in vinhos_ordenados:
             preco = float(vinho.get('preco', 0))  #converte pra float
             teor = float(vinho.get('teor', 0))  #converte pra float
-            print("{:<15} R$ {:<11.2f} {:<15.2f}".format(vinho['tipo'], preco, teor))
+            print("{:<15} R$ {:<11.2f} {:<14.2f}".format(vinho['tipo'], preco, teor, vinho))
     else:
         print("Erro ao listar os vinhos do mais barato ao mais caro.")
 
