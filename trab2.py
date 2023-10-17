@@ -108,14 +108,19 @@ def pesquisar():
 
         if vinicola_escolhida == 1:
             response = response_freitas
-            break 
+            break
         elif vinicola_escolhida == 2:
             response = response_soares
-            break 
+            break
         else:
             titulo("Opção inválida. Escolha 1 para Vinícola Freitas ou 2 para Vinícola Soares.", cor=Fore.RED)
 
-    palavra_chave = input("Digite a palavra-chave (Marca, Tipo ou ambas): ")
+    while True:
+        palavra_chave = input("Digite a palavra-chave (marca ou tipo): ")
+        if len(palavra_chave) >= 2:
+            break
+        else:
+            print("A pesquisa deve ter pelo menos 2 caracteres!")
 
     if response.status_code == 200:
         vinhos = response.json()
