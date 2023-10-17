@@ -59,7 +59,7 @@ def vinhos_tipo():
         print("Erro ao listar a quantidade dos vinhos por tipo.")
 
 
-#3- opção 3 | função de conjuntos que vai fazer uma INTERSECÇÃO, mostrando o que as duas vinicolas tem de marcas em comum e quais marcas não são em comum, e sim unicas de cada
+#3- opção 3 | função de conjuntos que vai fazer uma INTERSECÇÃO, mostrando o que as duas vinicolas tem de marcas em comum 
 def compara_vinicolas():
     #puxa as marcas de cada vinícola
     dados_freitas = response_freitas.json()
@@ -100,7 +100,7 @@ def marca_exclusiva():
     else:
         titulo("A Vinícola Soares não possui marcas exclusivas.\n", cor=Fore.BLUE)
 
-#4 - opção 5 | pesquisa. pesquisa feita na vinícola escolhida, busca por marca de vinho ou tipo de vinho
+#4 - opção 5 | pesquisa de dados. pesquisa feita na vinícola escolhida, busca por marca de vinho ou tipo de vinho
 def pesquisar():
     while True:
         titulo("Pesquisa por Marca de Vinho e Tipo", cor=Fore.LIGHTYELLOW_EX)
